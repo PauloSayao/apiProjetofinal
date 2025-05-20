@@ -1,11 +1,25 @@
+const PORT = process.env.PORT || 3001; // Render usa porta dinâmica
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
+const allowedOrigins = [
+  'https://seu-frontend.onrender.com',
+  'http://localhost:4200' // Para desenvolvimento
+];
+
 
 const app = express();
 
-app.use(cors());
-// app.use(express.urlencoded({ extended: true }));
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname)));
@@ -170,6 +184,7 @@ app.delete("/pedidos", (req, res) => {
   pedidosSalvos.length = 0;
   return res.status(200).json({ message: "Todos os pedidos foram removidos!" });
 });
-app.listen(3001, () => {
-  console.log("API running on http://localhost:3001/");
+
+app.listen(PORT, () => {
+  console.log(`API running on port ${PORT}`);
 });
