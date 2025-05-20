@@ -3,7 +3,7 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 const allowedOrigins = [
-  'https://seu-frontend.onrender.com',
+  'https://projeto-final-lemm-9s58qx8qi-paulos-projects-6791c6fb.vercel.app/login',
   'http://localhost:4200' // Para desenvolvimento
 ];
 
