@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "main": "api.js", 
   "scripts": {
-    "start": "node api.js"
-  },
+  "start": "node api.js",
+  "test": "echo \"Error: no test specified\" && exit 1"
+},
+"engines": {
+  "node": ">=16.0.0"
+},
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0"
