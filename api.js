@@ -25,9 +25,12 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Credentials', 'true');
   next();
 });
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Algo deu errado!');
+});
 
-
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, 'public')));
 app.options('*', cors());
 const users = [
   { name: "admin", password: "123456", role: "admin", email: "admin@email.com",telephone: "123456789" },
