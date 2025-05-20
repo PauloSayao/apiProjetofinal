@@ -3,7 +3,7 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 const allowedOrigins = [
-  'https://projeto-final-lemm-9s58qx8qi-paulos-projects-6791c6fb.vercel.app/login',
+  'https://projeto-final-lemm.vercel.app',
   'http://localhost:4200' // Para desenvolvimento
 ];
 
@@ -11,19 +11,29 @@ const allowedOrigins = [
 const app = express();
 
 app.use(cors({
-  origin: function(origin, callback) {
+  origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
-  }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
-app.use(express.json());
+// Middleware para headers CORS adicionais
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 
 app.use(express.static(path.join(__dirname)));
-
+app.options('*', cors());
 const users = [
   { name: "admin", password: "123456", role: "admin", email: "admin@email.com",telephone: "123456789" },
   { name: "user", password: "123456", role: "user", email: "user@email.com",telephone: "987654321" },
